@@ -9,7 +9,10 @@ namespace Bean.Resources.Database
 {
     public class SQLiteDbContext : DbContext
     {
+        #region Tables
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<HeartBeat> HeartBeats { get; set; }
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder Options)
         {

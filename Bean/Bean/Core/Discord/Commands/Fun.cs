@@ -37,5 +37,19 @@ namespace Bean.Core.Discord.Commands
             await Task.Delay(700);
             await Context.Channel.SendMessageAsync("**Come on sucker lick my battery**");
         }
+
+        [Command("ride"), Alias("takearide"), Summary("Command revolving around Phil's short story Let's Go For A Ride")]
+        public async Task Ride()
+        {
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+            await Task.Delay(1000);
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} ");
+        }
     }
 }

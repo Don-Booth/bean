@@ -11,8 +11,10 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Bean")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("IcicleTrepan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright 2019")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("Bean is a Discord and Twitch bot built specifically for Phil Rossi Media")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bean")]

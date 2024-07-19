@@ -26,10 +26,14 @@ namespace Bean.Core.Discord.Commands
         {
             string strTitle = await Core.Common.GetMostRecentPodcastEpisode.GetLatestPodcastEpisode();
 
-            if (strTitle != null)
+            if (strTitle != null && strTitle != "")
             {
                 await Context.Client.SetGameAsync($"{strTitle} - Phil Rossi Patreon Exclusive Podcast", "", ActivityType.Listening);
                 await Context.Channel.SendMessageAsync($"I'm listening to **{strTitle}**, the latest episode of **Phil Rossi's Patreon Exclusive Podcast**.  **https://patreon.com/philrossi** to join in the scares!");
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync($"It appears Patreon is down, {Context.Message.Author.Username}.");
             }
         }
     }

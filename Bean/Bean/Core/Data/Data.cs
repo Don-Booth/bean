@@ -4,19 +4,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Bean.Resources.Database;
 using System.Linq;
+using MoreLinq;
 
 namespace Bean.Core.Data
 {
-    //public int QuoteId { get; set; }
-    //public string QuoteText { get; set; }
-    //public string QuoteAuthor { get; set; }
-    //public string QuoteSource { get; set; }
-    //public string QuoteDate { get; set; }
-    //public string QuoteContributor { get; set; }
-    //public string DateAdded { get; set; }
-
     public static class Data
     {
+        #region quotes
         public static string GetQuote()
         {
             using (var DbContext = new SQLiteDbContext())
@@ -58,5 +52,35 @@ namespace Bean.Core.Data
                 await DbContext.SaveChangesAsync();
             }
         }
+        #endregion
+
+        #region heartbeat
+        public static HeartBeat GetHeartRate()
+        {
+            HeartBeat hb = null;
+
+            using (var DbContext = new SQLiteDbContext())
+            {
+                hb = DbContext.HeartBeats.MaxBy(x => x.HeartRate).FirstOrDefault();
+
+                return hb;
+            }
+        }
+
+        public static async void SaveHeartRate(int HeartRate, ulong HeartRateTimestamp, string HeartRateGamePlayed)
+        {
+            using (var DbContext = new SQLiteDbContext())
+            {
+                DbContext.HeartBeats.Add(new HeartBeat
+                {
+                    HeartRate = HeartRate,
+                    HeartRateTimestamp = HeartRateTimestamp,
+                    HeartRateGamePlayed = HeartRateGamePlayed
+                });
+
+                await DbContext.SaveChangesAsync();
+            }
+        }
+        #endregion
     }
 }

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionString" xml:space="preserve">
-    <value>Data\Database.sqlite</value>
+    <value>Database.sqlite</value>
   </data>
   <data name="HeartRateWebSocketURI" xml:space="preserve">
     <value>wss://ramiel2.pulsoid.net/listen/1512d11b-b9aa-4080-8b7a-3b61387c4248</value>

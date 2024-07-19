@@ -31,9 +31,6 @@ namespace Bean
             TwitchChatBot TBot = new TwitchChatBot();
             TBot.Connect();
 
-            //HeartRate HRate = new HeartRate();
-            //HRate.Connect();
-
             Task t = HeartRate.Connect();
 
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
@@ -54,5 +51,8 @@ namespace Bean
     // TODO Bring commands from Discord into Twitch.
     // TODO Add build version as a command to show which build we are on.
     // TODO Check to see if StyleCop is working for VS2019
-    #endregion
+    // TODO Allow Phil to update the schedule/put schedule in database
+    // TODO Keep Phil's list of currently played games/game queue
+    // TODO Movie queue
+    #endregion 
 }

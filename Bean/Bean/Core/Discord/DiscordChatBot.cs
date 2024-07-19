@@ -43,7 +43,7 @@ namespace Bean.Core.Discord
 
             string strTitle = await Core.Common.GetMostRecentPodcastEpisode.GetLatestPodcastEpisode();
 
-            if (strTitle != null)
+            if (strTitle != null && strTitle != "")
             {
                 await DiscordClient.SetGameAsync($"{strTitle} - Phil Rossi Patreon Exclusive Podcast", "", ActivityType.Listening);
             }

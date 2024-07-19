@@ -597,6 +597,15 @@
           "ref/netstandard1.3/_._": {}
         }
       },
+      "morelinq/3.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/MoreLinq.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MoreLinq.dll": {}
+        }
+      },
       "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -3143,6 +3152,26 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
+      ]
+    },
+    "morelinq/3.1.0": {
+      "sha512": "J0DocueE/VH8+NC7Wh71TrvZjTauJt2rzseon59KlS2HMYGN38REMzq2cj/AnMnXFjsmpVGHo5Sl36FLG6c7vw==",
+      "type": "package",
+      "path": "morelinq/3.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net451/MoreLinq.dll",
+        "lib/net451/MoreLinq.pdb",
+        "lib/net451/MoreLinq.xml",
+        "lib/netstandard1.0/MoreLinq.dll",
+        "lib/netstandard1.0/MoreLinq.pdb",
+        "lib/netstandard1.0/MoreLinq.xml",
+        "lib/netstandard2.0/MoreLinq.dll",
+        "lib/netstandard2.0/MoreLinq.pdb",
+        "lib/netstandard2.0/MoreLinq.xml",
+        "morelinq.3.1.0.nupkg.sha512",
+        "morelinq.nuspec"
       ]
     },
     "NETStandard.Library/2.0.3": {
@@ -7118,7 +7147,8 @@
       "Newtonsoft.Json >= 12.0.1",
       "System.Net.WebSockets.Client >= 4.3.2",
       "System.ServiceModel.Syndication >= 4.5.0",
-      "TwitchLib >= 3.0.1"
+      "TwitchLib >= 3.0.1",
+      "morelinq >= 3.1.0"
     ]
   },
   "packageFolders": {
@@ -7208,6 +7238,10 @@
           "TwitchLib": {
             "target": "Package",
             "version": "[3.0.1, )"
+          },
+          "morelinq": {
+            "target": "Package",
+            "version": "[3.1.0, )"
           }
         },
         "imports": [
