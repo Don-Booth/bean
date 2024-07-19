@@ -18,41 +18,40 @@ namespace Bean
     {
         #region Class Variables
         private DiscordSocketClient DiscordClient;
-        private CommandService Commands;
+        private CommandService DiscordCommands;
         #endregion
 
         //static void Main(string[] args)
         static void Main()
         {
-            new Program().MainAsync().GetAwaiter().GetResult();
+            new Program().MainAsync().GetAwaiter().GetResult(); // Kicks off an instance of MainAsync.
         }
 
         private async Task MainAsync()
         {
-            #region configuration
+            #region Discord Configuration
             DiscordClient = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Debug });
+            DiscordCommands = new CommandService(new CommandServiceConfig { CaseSensitiveCommands = true, DefaultRunMode = RunMode.Async, LogLevel = LogSeverity.Debug });
 
-            Commands = new CommandService(new CommandServiceConfig { CaseSensitiveCommands = true, DefaultRunMode = RunMode.Async, LogLevel = LogSeverity.Debug });
+            DiscordClient.MessageReceived += DiscordClient_MessageReceived; // Fires when someone sends a message in a channel that the bot can read.
+            await DiscordCommands.AddModulesAsync(Assembly.GetEntryAssembly(), null); // Adds all commands in the project.
 
-            DiscordClient.MessageReceived += Client_MessageReceived; // Fires when someone sends a message in a channel that the bot can read.
-            await Commands.AddModulesAsync(Assembly.GetEntryAssembly(), null); // Adds all commands in the project.
-
-            DiscordClient.Ready += Client_Ready; // Fires when bot is started and logged in successfully.
-            DiscordClient.Log += Client_Log; // Fires whenever log messages are received (based on log level set above).
-            #endregion
+            DiscordClient.Ready += DiscordClient_Ready; // Fires when bot is started and logged in successfully.
+            DiscordClient.Log += DiscordClient_Log; // Fires whenever log messages are received (based on log level set above).
 
             await DiscordClient.LoginAsync(TokenType.Bot, Data.DiscordInfo.TestToken); // Logs the bot in.
             await DiscordClient.StartAsync(); // Start the bot.
+            #endregion
 
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
         }
 
-        private async Task Client_Log(LogMessage Message)
+        private async Task DiscordClient_Log(LogMessage Message)
         {
             Console.WriteLine($"{DateTime.Now} at {Message.Source}] {Message.Message}");
         }
 
-        private async Task Client_Ready()
+        private async Task DiscordClient_Ready()
         {
             await DiscordClient.SetStatusAsync(UserStatus.Online); // Sets status to online (should already be so)
 
@@ -64,7 +63,7 @@ namespace Bean
             }
         }
  
-        private async Task Client_MessageReceived(SocketMessage MessageParam)
+        private async Task DiscordClient_MessageReceived(SocketMessage MessageParam)
         {
             //var Message = MessageParam as SocketUserMessage; // Effectively casts SocketMessage as SocketUserMessage so that we can get information about the user and the message.
             var Message = (SocketUserMessage)MessageParam; // Effectively casts SocketMessage as SocketUserMessage so that we can get information about the user and the message.
@@ -77,7 +76,7 @@ namespace Bean
             //if (!(Message.HasStringPrefix("b!", ref ArgPos) || Message.HasMentionPrefix(DiscordClient.CurrentUser, ref ArgPos))) return;
             if (!(Message.HasStringPrefix("t!", ref ArgPos) || Message.HasMentionPrefix(DiscordClient.CurrentUser, ref ArgPos))) return;
 
-            var Result = await Commands.ExecuteAsync(Context, ArgPos, null); // Execute the command
+            var Result = await DiscordCommands.ExecuteAsync(Context, ArgPos, null); // Execute the command
 
             if (!Result.IsSuccess)
             { // If the command failed, let's deal with that.
