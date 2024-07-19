@@ -104,5 +104,14 @@ namespace Bean.Data {
                 return ResourceManager.GetString("RefreshToken", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IcicleTrepan.
+        /// </summary>
+        internal static string TestChannelName {
+            get {
+                return ResourceManager.GetString("TestChannelName", resourceCulture);
+            }
+        }
     }
 }

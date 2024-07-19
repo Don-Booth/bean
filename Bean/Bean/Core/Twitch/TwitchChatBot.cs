@@ -15,12 +15,12 @@ namespace Bean.Core.Twitch
         readonly ConnectionCredentials twitchcreds = new ConnectionCredentials(TwitchInfo.BotUsername, TwitchInfo.AccessToken);
         TwitchClient client;
 
-        internal void Connect()
+        internal async void Connect()
         {
             Console.WriteLine("Twitch Bot Connecting");
 
             client = new TwitchClient();
-            client.Initialize(twitchcreds, TwitchInfo.ChannelName);
+            client.Initialize(twitchcreds, TwitchInfo.TestChannelName);
 
             client.OnLog += Client_OnLog;
             client.OnConnectionError += Client_OnConnectionError;

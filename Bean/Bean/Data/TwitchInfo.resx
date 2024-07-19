@@ -132,4 +132,7 @@
   <data name="RefreshToken" xml:space="preserve">
     <value>oim05vfk480pwulfgh6pp4g7zug2jjfhaqqpq5w54etsuc6t87</value>
   </data>
+  <data name="TestChannelName" xml:space="preserve">
+    <value>IcicleTrepan</value>
+  </data>
 </root>
