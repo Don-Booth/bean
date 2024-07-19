@@ -20,7 +20,7 @@ namespace Bean.Core.Twitch
             Console.WriteLine("Twitch Bot Connecting");
 
             client = new TwitchClient();
-            client.Initialize(twitchcreds, TwitchInfo.TestChannelName);
+            client.Initialize(twitchcreds, TwitchInfo.ChannelName);
 
             client.OnLog += Client_OnLog;
             client.OnConnectionError += Client_OnConnectionError;

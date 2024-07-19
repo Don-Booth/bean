@@ -30,6 +30,9 @@ namespace Bean
             TwitchChatBot TBot = new TwitchChatBot();
             TBot.Connect();
 
+            //Core.Common.HeartRate hr = new Core.Common.HeartRate();
+            //hr.HeartRateConnect();
+
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
         }
     }

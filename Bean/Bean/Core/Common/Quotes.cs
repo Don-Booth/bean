@@ -44,6 +44,9 @@ namespace Bean.Core.Common
                 }
 
                 // Save data
+
+
+                await Context.Channel.SendMessageAsync($":tada: {User1.Mention} has inserted a quote");
             }
         }
     }

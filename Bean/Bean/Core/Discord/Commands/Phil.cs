@@ -24,7 +24,7 @@ namespace Bean.Core.Discord.Commands
             await Context.Channel.SendMessageAsync("Support Phil on Patreon: https://patreon.com/philrossi");
             await Context.Channel.SendMessageAsync("Visit Phil on Twitch: https://twitch.tv/philrossimedia");
             await Context.Channel.SendMessageAsync("Visit Phil's website: http://www.philrossimedia.com/");
-            await Context.Channel.SendMessageAsync("Donate to Phil: https://streamlabs.com/philrossimedia");
+            await Context.Channel.SendMessageAsync("Donate to Phil: https://streamlabs.com/philrossi");
         }
 
         [Command("philbooks"), Alias("books"), Summary("Phil's books")]
@@ -99,7 +99,7 @@ namespace Bean.Core.Discord.Commands
             //Embed.WithThumbnailUrl("http://specficmedia.com/files/2011/11/PhilRossi.jpg");
             Embed.WithFooter("Last updated: 2019-02-03 11:25 AM");
             Embed.WithDescription("```Phil Rossi is an author, musician, producer, podcaster, and voice actor.  His writing, podcasts, and music have been nominated for numerous awards over the years. In 2006, Phil released his debut novel Crescent as a podcast, and in in 2007,  Crescent was released in book form, quickly becoming an Amazon best-seller. Phil has a passion for story-telling matched only by the pleasure he derives from keeping his fans awake at night. Since it’s initial release, Crescent has lured thousands of readers and listeners into a dark, twisted world of nightmares and things that go bump in the night. Phil’s writing has been paralleled to Stephen King, Philip K. Dick, Arthur C. Clarke, and HP Lovecraft. He has a flair for vivid and often chilling imagery that lends itself to engrossing narratives and an undertone of inescapable, creeping dread. Phil lives in outside of Washington, DC in Virginia where he raises his two daughters. He performs as a solo artist and in several bands throughout the DC metropolitan area.```\n" +
-             "**[Support Phil on Patreon](https://patreon.com/phillrossimedia)**");
+             "**[Support Phil on Patreon](https://patreon.com/philrossi)**");
 
             await Context.Channel.SendMessageAsync("", false, Embed.Build());
         }

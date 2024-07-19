@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-
 namespace Bean.Resources.Database
 {
     public class SQLiteDbContext : DbContext

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel.Syndication;
 using System.Xml;
+using Bean.Data;
 
 namespace Bean.Core.Common
 {
@@ -19,7 +20,7 @@ namespace Bean.Core.Common
 
             try
             {
-                SyndicationFeed patreonFeed = SyndicationFeed.Load(XmlReader.Create(Data.General.PhilRossiPatreonPodcast));
+                SyndicationFeed patreonFeed = SyndicationFeed.Load(XmlReader.Create(General.PhilRossiPatreonPodcast));
 
                 foreach (SyndicationItem item in patreonFeed.Items)
                 {
