@@ -64,7 +64,12 @@ namespace Bean.Core.Discord
             {
                 await Context.Channel.SendMessageAsync("A strange game. The only winning move is not to play. How about a nice game of chess?");
             }
-            
+
+            if ((Message.HasMentionPrefix(DiscordClient.CurrentUser, ref ArgPos)) && (Message.Content.ToLower().Contains("lunch")))
+            {
+                await Context.Channel.SendMessageAsync("You know what's for lunch?  Killin'!!  Killin's for lunch, killin's for lunch!");
+            }
+
             if (!(Message.HasStringPrefix("b!", ref ArgPos) || Message.HasMentionPrefix(DiscordClient.CurrentUser, ref ArgPos))) return;
 
             var Result = await DiscordCommands.ExecuteAsync(Context, ArgPos, null); // Execute the command

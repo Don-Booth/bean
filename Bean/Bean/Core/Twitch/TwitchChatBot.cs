@@ -17,12 +17,13 @@ using TwitchLib.Api.Services.Events;
 using Bean.Data;
 using System.Threading.Tasks;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
+using TwitchLib.Client.Enums;
 
 namespace Bean.Core.Twitch
 {
     internal class TwitchChatBot
     {
-        private TwitchAPI API;
+        private TwitchAPI API = new TwitchAPI();
         private LiveStreamMonitorService Monitor;
         readonly ConnectionCredentials twitchcreds = new ConnectionCredentials(TwitchInfo.BotUsername, TwitchInfo.AccessToken);
         TwitchClient client;
@@ -34,14 +35,43 @@ namespace Bean.Core.Twitch
             client = new TwitchClient();
             client.Initialize(twitchcreds, TwitchInfo.TestChannelName);
 
+            API.Settings.ClientId = TwitchInfo.ClientID;
+            API.Settings.AccessToken = TwitchInfo.AccessToken;
+
             client.OnLog += Client_OnLog;
             client.OnConnected += Client_OnConnected;
             client.OnJoinedChannel += Client_OnJoinedChannel;
             client.OnConnectionError += Client_OnConnectionError;
             client.OnMessageReceived += Client_OnMessageReceived;
+            client.OnMessageThrottled += Client_OnMessageThrottled;
+            client.OnNewSubscriber += Client_OnNewSubscriber;
+            client.OnDisconnected += Client_OnDisconnected;
 
             client.Connect();
             LiveMonitor();
+            //MessageThrottler();
+        }
+
+        private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
+        {
+            client.Reconnect();
+        }
+
+        private void Client_OnNewSubscriber(object sender, OnNewSubscriberArgs e)
+        {
+            if (e.Subscriber.SubscriptionPlan == SubscriptionPlan.Prime)
+            {
+                client.SendMessage(e.Channel, $"{e.Subscriber.DisplayName} just subscribed via Twitch Prime!  ONE OF US ONE OF US ONE OF US");
+            }
+            else
+            {
+                client.SendMessage(e.Channel, $"{e.Subscriber.DisplayName} just subscribed!  ONE OF US ONE OF US ONE OF US");
+            }
+        }
+
+        private void Client_OnMessageThrottled(object sender, OnMessageThrottledEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
@@ -88,8 +118,18 @@ namespace Bean.Core.Twitch
                     }
                     else
                     {
-                        client.SendMessage(e.ChatMessage.Channel, $"{user.Matches[0].Name} is currently not live");
-                        Console.WriteLine($"Twitch] {user.Matches[0].Name} is currently not live");
+                        bool isStreaming = await API.V5.Streams.BroadcasterOnlineAsync("user");
+
+                        if (isStreaming)
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"Error retrieving Stream Game");
+                            Console.WriteLine($"Twitch] Error retrieving Stream Game");
+                        }
+                        else
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"{user.Matches[0].Name} is currently not live");
+                            Console.WriteLine($"Twitch] {user.Matches[0].Name} is currently not live");
+                        }
                     }
                 }
                 else
@@ -139,10 +179,7 @@ namespace Bean.Core.Twitch
 
         private async Task ConfigLiveMonitorAsync()
         {
-            API = new TwitchAPI();
 
-            API.Settings.ClientId = TwitchInfo.ClientID;
-            API.Settings.AccessToken = TwitchInfo.AccessToken;
 
             Monitor = new LiveStreamMonitorService(API, 60);
 
