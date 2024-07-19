@@ -15,11 +15,15 @@ using TwitchLib.Api.Services;
 using TwitchLib.Api.Services.Events;
 
 using Bean.Data;
+using System.Threading.Tasks;
+using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 
 namespace Bean.Core.Twitch
 {
     internal class TwitchChatBot
     {
+        private TwitchAPI API;
+        private LiveStreamMonitorService Monitor;
         readonly ConnectionCredentials twitchcreds = new ConnectionCredentials(TwitchInfo.BotUsername, TwitchInfo.AccessToken);
         TwitchClient client;
 
@@ -37,11 +41,12 @@ namespace Bean.Core.Twitch
             client.OnMessageReceived += Client_OnMessageReceived;
 
             client.Connect();
+            LiveMonitor();
         }
 
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            Console.WriteLine($"Twitch] Twitch Bot joined channel: ${e.Channel}");
+            Console.WriteLine($"Twitch] Twitch Bot joined channel: {e.Channel}");
         }
 
         private void Client_OnConnected(object sender, OnConnectedArgs e)
@@ -49,19 +54,13 @@ namespace Bean.Core.Twitch
             Console.WriteLine("Twitch] Twitch Bot Connecting");
         }
 
-        private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
+        private async void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            TwitchAPI api = new TwitchAPI();
-            var temp = api.V5.Streams.GetStreamByUserAsync("PhilRossiMedia");
-            //TwitchLib.Communication.Services.Throttlers
-
-
             if (e.ChatMessage.Message.StartsWith("hi Bean", StringComparison.InvariantCultureIgnoreCase))
             {
                 client.SendMessage(e.ChatMessage.Channel, $"Hi {e.ChatMessage.DisplayName}!");
             }
-
-            if (e.ChatMessage.Message.Equals("b!quote", StringComparison.InvariantCulture))
+            else if (e.ChatMessage.Message.Equals("b!quote", StringComparison.InvariantCulture))
             {
                 string strResult = Twitch.Commands.Quotes.GetQuote();
 
@@ -76,8 +75,32 @@ namespace Bean.Core.Twitch
                     client.SendMessage(e.ChatMessage.Channel, $"Error retrieving quote");
                 }
             }
+            else if (e.ChatMessage.Message.Equals("b!starthr", StringComparison.InvariantCulture))
+            {
+                var user = await API.V5.Users.GetUserByNameAsync("PhilRossiMedia");
 
-            if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
+                if (user != null)
+                {
+                    var stream = await API.V5.Streams.GetStreamByUserAsync(user.Matches[0].Id);
+                    if (stream.Stream != null)
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"Currently playing: {stream.Stream.Game}");
+                    }
+                    else
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"{user.Matches[0].Name} is currently not live");
+                        Console.WriteLine($"Twitch] {user.Matches[0].Name} is currently not live");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Twitch] ERROR - PhilRossiMedia user not found");
+                }
+
+                //string msg = $"{channel} has been streaming for {(DateTime.Now - stream.Stream.CreatedAt).ToString()} and they've been playing {stream.Stream.Game}.";
+
+            }
+            else if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
             {
                 string strResult = Twitch.Commands.Heartrate.GetHearRate();
 
@@ -92,13 +115,6 @@ namespace Bean.Core.Twitch
                     client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
                 }
             }
-
-            //if (e.ChatMessage.Message.StartsWith("!heartrate", StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //HeartBeat hb = new HeartBeat();
-            //int hbtest = hb.GetHeartbeat();
-            //client.SendMessage(e.ChatMessage.Channel, $"Phil's current heartrate is : {hbtest.ToString()}");
-            //}
         }
 
         private void Client_OnLog(object sender, OnLogArgs e)
@@ -114,6 +130,58 @@ namespace Bean.Core.Twitch
         internal void Disconnect()
         {
             Console.WriteLine("Twitch] Twitch Bot Disconnecting");
+        }
+
+        public void LiveMonitor()
+        {
+            Task.Run(() => ConfigLiveMonitorAsync());
+        }
+
+        private async Task ConfigLiveMonitorAsync()
+        {
+            API = new TwitchAPI();
+
+            API.Settings.ClientId = TwitchInfo.ClientID;
+            API.Settings.AccessToken = TwitchInfo.AccessToken;
+
+            Monitor = new LiveStreamMonitorService(API, 60);
+
+            List<string> lst = new List<string> { "ID1", "ID2" };
+            Monitor.SetChannelsById(lst);
+
+            Monitor.OnStreamOnline += Monitor_OnStreamOnline;
+            Monitor.OnStreamOffline += Monitor_OnStreamOffline;
+            Monitor.OnStreamUpdate += Monitor_OnStreamUpdate;
+
+            Monitor.OnServiceStarted += Monitor_OnServiceStarted;
+            Monitor.OnChannelsSet += Monitor_OnChannelsSet;
+
+            Monitor.Start(); //Keep at the end!
+        }
+
+        private void Monitor_OnStreamOnline(object sender, OnStreamOnlineArgs e)
+        {
+            Console.WriteLine($"Twitch] Stream has started on channel: ${e.Channel} at {e.Stream.StartedAt} - {e.Stream.Title}");
+        }
+
+        private void Monitor_OnStreamUpdate(object sender, OnStreamUpdateArgs e)
+        {
+            Console.WriteLine($"Twitch] Stream has been updated on channel: ${e.Channel} at {e.Stream.StartedAt} - {e.Stream.Title}");
+        }
+
+        private void Monitor_OnStreamOffline(object sender, OnStreamOfflineArgs e)
+        {
+            Console.WriteLine($"Twitch] Stream has ended on channel: ${e.Channel} for {(DateTime.Now - e.Stream.StartedAt).ToString()} - {e.Stream.Title}");
+        }
+
+        private void Monitor_OnChannelsSet(object sender, OnChannelsSetArgs e)
+        {
+            Console.WriteLine($"Twitch] Channels set: {e.Channels.ToString()}");
+        }
+
+        private void Monitor_OnServiceStarted(object sender, OnServiceStartedArgs e)
+        {
+            Console.WriteLine($"Twitch] Monitor Service has started");
         }
     }
 }

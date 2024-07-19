@@ -34,7 +34,7 @@ namespace Bean.Core.Discord
 
         private async Task DiscordClient_Log(LogMessage Message)
         {
-            Console.WriteLine($"{DateTime.Now} at {Message.Source}] {Message.Message}");
+            Console.WriteLine($"{DateTime.Now} Discord at {Message.Source}] {Message.Message}");
         }
 
         private async Task DiscordClient_Ready()
@@ -71,7 +71,7 @@ namespace Bean.Core.Discord
 
             if (!Result.IsSuccess)
             { // If the command failed, let's deal with that.
-                Console.WriteLine($"{DateTime.Now} at Commands] Something went wrong with executing a command.  Text: {Context.Message.Content} | Error: {Result.ErrorReason}");
+                Console.WriteLine($"{DateTime.Now} Discord at Commands] Something went wrong with executing a command.  Text: {Context.Message.Content} | Error: {Result.ErrorReason}");
             }
         }
     }
