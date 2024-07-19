@@ -28,7 +28,7 @@ namespace Bean.Core.Discord
             DiscordClient.Ready += DiscordClient_Ready; // Fires when bot is started and logged in successfully.
             DiscordClient.Log += DiscordClient_Log; // Fires whenever log messages are received (based on log level set above).
 
-            await DiscordClient.LoginAsync(TokenType.Bot, DiscordInfo.Token); // Logs the bot in. // TODO CHANGE BEFORE PRODUCTION
+            await DiscordClient.LoginAsync(TokenType.Bot, DiscordInfo.TestToken); // Logs the bot in. // TODO CHANGE BEFORE PRODUCTION
             await DiscordClient.StartAsync(); // Start the bot.
         }
 

@@ -37,7 +37,7 @@ namespace Bean.Core.Twitch
             Console.WriteLine("Twitch] Twitch Bot Connecting");
 
             client = new TwitchClient();
-            client.Initialize(twitchcreds, TwitchInfo.ChannelName); // TODO CHANGE BEFORE PRODUCTION
+            client.Initialize(twitchcreds, TwitchInfo.TestChannelName); // TODO CHANGE BEFORE PRODUCTION
 
             API.Settings.ClientId = TwitchInfo.ClientID;
             API.Settings.AccessToken = TwitchInfo.AccessToken;
