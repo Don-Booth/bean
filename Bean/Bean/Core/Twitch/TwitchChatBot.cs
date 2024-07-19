@@ -128,59 +128,66 @@ namespace Bean.Core.Twitch
             }
             else if (e.ChatMessage.Message.Equals("b!starthr", StringComparison.InvariantCulture))
             {
-                var user = await API.V5.Users.GetUserByNameAsync("PhilRossiMedia");
-
-                if (user != null)
+                if (e.ChatMessage.IsBroadcaster || e.ChatMessage.IsModerator)
                 {
-                    var stream = await API.V5.Streams.GetStreamByUserAsync(user.Matches[0].Id);
-                    if (stream.Stream != null)
-                    {
-                        client.SendMessage(e.ChatMessage.Channel, $"Phil is currently playing: {stream.Stream.Game}");
-                        StartTask(ref token, e);
-                    }
-                    else
-                    {
-                        bool isStreaming = await API.V5.Streams.BroadcasterOnlineAsync(user.Matches[0].Id);
+                    var user = await API.V5.Users.GetUserByNameAsync("PhilRossiMedia");
 
-                        if (isStreaming)
+                    if (user != null)
+                    {
+                        var stream = await API.V5.Streams.GetStreamByUserAsync(user.Matches[0].Id);
+                        if (stream.Stream != null)
                         {
-                            client.SendMessage(e.ChatMessage.Channel, $"Error retrieving Stream Game");
-                            Console.WriteLine($"Twitch] Error retrieving Stream Game");
+                            client.SendMessage(e.ChatMessage.Channel, $"Phil is currently playing: {stream.Stream.Game}");
+                            StartTask(ref token, e);
                         }
                         else
                         {
-                            client.SendMessage(e.ChatMessage.Channel, $"{user.Matches[0].Name} is currently not live");
-                            Console.WriteLine($"Twitch] {user.Matches[0].Name} is currently not live");
+                            bool isStreaming = await API.V5.Streams.BroadcasterOnlineAsync(user.Matches[0].Id);
+
+                            if (isStreaming)
+                            {
+                                client.SendMessage(e.ChatMessage.Channel, $"Error retrieving Stream Game");
+                                Console.WriteLine($"Twitch] Error retrieving Stream Game");
+                            }
+                            else
+                            {
+                                client.SendMessage(e.ChatMessage.Channel, $"{user.Matches[0].Name} is currently not live");
+                                Console.WriteLine($"Twitch] {user.Matches[0].Name} is currently not live");
+                            }
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine($"Twitch] ERROR - PhilRossiMedia user not found");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine($"Twitch] ERROR - PhilRossiMedia user not found");
-                }
-
                 //string msg = $"{channel} has been streaming for {(DateTime.Now - stream.Stream.CreatedAt).ToString()} and they've been playing {stream.Stream.Game}.";
-
             }
             else if (e.ChatMessage.Message.Equals("b!stophr", StringComparison.InvariantCulture))
             {
-                StopTask();
+                if (e.ChatMessage.IsBroadcaster || e.ChatMessage.IsModerator)
+                {
+                    StopTask();
+                }
             }
             else if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
             {
                 if (Program.hrtaskrun)
                 {
-                    string strResult = Twitch.Commands.Heartrate.GetHearRate();
-
-                    if (strResult != "")
+                    if (Program.globalheartrate > 0)
                     {
-                        strResult = strResult.Replace("`", "");
+                        string strResult = Twitch.Commands.Heartrate.GetHearRate();
 
-                        client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
-                    }
-                    else
-                    {
-                        client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                        if (strResult != "")
+                        {
+                            strResult = strResult.Replace("`", "");
+
+                            client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+                        }
+                        else
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                        }
                     }
                 }
                 else
