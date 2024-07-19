@@ -70,6 +70,15 @@ namespace Bean.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to wss://ramiel2.pulsoid.net/listen/1512d11b-b9aa-4080-8b7a-3b61387c4248.
+        /// </summary>
+        internal static string HeartRateWebSocketURI {
+            get {
+                return ResourceManager.GetString("HeartRateWebSocketURI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.patreon.com/rss/philrossi?auth=PmTieanj2X1e4jGcefdONe6705vuUPin.
         /// </summary>
         internal static string PhilRossiPatreonPodcast {

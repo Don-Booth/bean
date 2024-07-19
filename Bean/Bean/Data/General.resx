@@ -120,6 +120,9 @@
   <data name="ConnectionString" xml:space="preserve">
     <value>Data\Database.sqlite</value>
   </data>
+  <data name="HeartRateWebSocketURI" xml:space="preserve">
+    <value>wss://ramiel2.pulsoid.net/listen/1512d11b-b9aa-4080-8b7a-3b61387c4248</value>
+  </data>
   <data name="PhilRossiPatreonPodcast" xml:space="preserve">
     <value>https://www.patreon.com/rss/philrossi?auth=PmTieanj2X1e4jGcefdONe6705vuUPin</value>
   </data>

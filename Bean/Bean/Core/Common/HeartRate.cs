@@ -10,42 +10,73 @@ namespace Bean.Core.Common
 {
     class HeartRate
     {
-        ClientWebSocket Client = new ClientWebSocket();
+        
         //System.Threading.CancellationToken cts = new System.Threading.CancellationToken();
 
-        async void ConnectToServerAsync()
+        internal static async Task Connect()
         {
             try
             {
-                Client.Options.AddSubProtocol("Tls12");
+                //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11;
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
-                //await Client.ConnectAsync(new Uri("wss://ramiel2.pulsoid.net/listen/1512d11b-b9aa-4080-8b7a-3b61387c4248"), CancellationToken.None);
-                await Client.ConnectAsync(new Uri("wss://echo.websocket.org"), CancellationToken.None);
-
-                if (Client.State == WebSocketState.Open)
+                using (ClientWebSocket Client = new ClientWebSocket())
                 {
-                    //Debug.Log("Input message ('exit' to exit): ");
-                    //ArraySegment<byte> bytesToSend = new ArraySegment<byte>(
-                    //    Encoding.UTF8.GetBytes("hello fury from unity")
-                    //);
-                    //await clientWebSocket.SendAsync(
-                    //    bytesToSend,
-                    //    WebSocketMessageType.Text,
-                    //    true,
-                    //    CancellationToken.None
-                    //);
-                    ArraySegment<byte> bytesReceived = new ArraySegment<byte>(new byte[1024]);
-                    WebSocketReceiveResult result = await Client.ReceiveAsync(
-                        bytesReceived,
-                        CancellationToken.None
-                    );
-                    Console.WriteLine($"{Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count)}");
+                    //Client.Options.AddSubProtocol("Tls12");                    
+                    Uri serverURI = new Uri(Bean.Data.General.HeartRateWebSocketURI);
+
+                    await Client.ConnectAsync(serverURI, CancellationToken.None);
+
+                    while (true)
+                    {
+                        if (Client.State == WebSocketState.Open)
+                        {
+                            Console.WriteLine($"[WS][connect]: Connected");
+                            ArraySegment<byte> bytesReceived = new ArraySegment<byte>(new byte[1024]);
+                            WebSocketReceiveResult result = await Client.ReceiveAsync(bytesReceived, CancellationToken.None);
+                            //Console.WriteLine($"{Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count)}");
+
+                            JObject root = JObject.Parse(Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count));
+
+                            foreach (KeyValuePair<String, JToken> app in root)
+                            {
+                                var appName = app.Key;
+
+                                switch(appName)
+                                {
+                                    case "data":
+                                        {
+                                            var heartratevalue = (String)app.Value["heartRate"];
+                                            //Console.WriteLine(heartratevalue);
+                                            int intResult = int.Parse(heartratevalue.ToString());
+                                            break;
+                                        }
+                                    case "timestamp":
+                                        {
+                                            var timestamp = (string)app.Value;
+                                            //Console.WriteLine(timestamp);
+                                            break;
+                                        }
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"[WS][disconnect]: Not Connected");
+                            break;
+                        }
+                    }
                 }
-                Console.WriteLine($"[WS][connect]: Connected");
+            }
+            catch (WebSocketException wex)
+            {
+                Console.WriteLine($"HeartRate Error] {wex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"HeartRate Error] {ex.Message}");
+                Console.WriteLine($"HeartRate Error] TYPE: {ex.GetType().Name} - MESSAGE: {ex.Message}");
             }
         }
 

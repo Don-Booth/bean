@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bean.Core.Twitch;
 using Bean.Core.Discord;
+using Bean.Core.Common;
 // Discord
 
 // Other
@@ -30,8 +31,10 @@ namespace Bean
             TwitchChatBot TBot = new TwitchChatBot();
             TBot.Connect();
 
-            //Core.Common.HeartRate hr = new Core.Common.HeartRate();
-            //hr.HeartRateConnect();
+            //HeartRate HRate = new HeartRate();
+            //HRate.Connect();
+
+            Task t = HeartRate.Connect();
 
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
         }
@@ -45,6 +48,9 @@ namespace Bean
     // TODO Add some more Crescent related things
     // TODO Make Bean automatically poll the Podcast RSS feed on an interval instead of manually or on startup only.
     // TODO Get Heartbeat working properly.
+    //      - Heart rate should be stored to the database with the value and a timestamp.  That way we can run metrics on it later.
+    //      - Heart rate can be retrieved after the fact from the database.
+    //      - Heart Rate should also be compared to last rate to determine if a spike happened so it can be announced.
     // TODO Bring commands from Discord into Twitch.
     // TODO Add build version as a command to show which build we are on.
     // TODO Check to see if StyleCop is working for VS2019
