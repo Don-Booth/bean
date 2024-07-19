@@ -34,7 +34,7 @@ namespace Bean.Core.Discord.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.WriteLine($"Database Error: {ex.Message}");
                 }
             }
 
