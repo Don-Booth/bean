@@ -19,15 +19,22 @@ namespace Bean.Core.Discord.Commands
             [Command(""), Alias("get", "getrandom", "random", "randomquote"), Summary("Gets a random quote")]
             public async Task GetRandomQuote()
             {
-                string strResult = Data.Data.GetQuote();
+                try
+                {
+                    string strResult = Data.Data.GetQuote();
 
-                if (strResult != "")
-                {
-                    await Context.Channel.SendMessageAsync($"{strResult}");
+                    if (strResult != "")
+                    {
+                        await Context.Channel.SendMessageAsync($"{strResult}");
+                    }
+                    else
+                    {
+                        await Context.Channel.SendMessageAsync($":x: Error retrieving quote");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await Context.Channel.SendMessageAsync($":x: Error retrieving quote");
+                    Console.WriteLine($"Error: {ex.Message}");
                 }
             }
 

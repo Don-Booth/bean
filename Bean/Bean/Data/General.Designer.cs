@@ -61,7 +61,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Database.sqlite.
+        ///   Looks up a localized string similar to Data\Database.sqlite.
         /// </summary>
         internal static string ConnectionString {
             get {

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionString" xml:space="preserve">
-    <value>Database.sqlite</value>
+    <value>Data\Database.sqlite</value>
   </data>
   <data name="PhilRossiPatreonPodcast" xml:space="preserve">
     <value>https://www.patreon.com/rss/philrossi?auth=PmTieanj2X1e4jGcefdONe6705vuUPin</value>
