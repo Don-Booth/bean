@@ -18,7 +18,8 @@ namespace Bean
         private CommandService Commands;
         #endregion
 
-        static void Main(string[] args)
+        //static void Main(string[] args)
+        static void Main()
         {
             new Program().MainAsync().GetAwaiter().GetResult();
         }

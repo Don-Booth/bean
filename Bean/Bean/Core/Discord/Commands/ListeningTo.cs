@@ -67,11 +67,11 @@ namespace Bean.Core.Commands
     public class NewsFeedService
     {
 
-        private readonly string _FeedUri;
-        public NewsFeedService(string feedUri)
-        {
-            _FeedUri = feedUri;
-        }
+        //private readonly string _FeedUri;
+        //public NewsFeedService(string feedUri)
+        //{
+        //    _FeedUri = feedUri;
+        //}
 
         //public async Task<NewsItem[]> GetNewsFeed()
         //{
