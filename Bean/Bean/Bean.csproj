@@ -5,4 +5,50 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\Data\" />
+    <Folder Include="Core\Twitch\Commands\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Resources\Database\" />
+    <Folder Include="Resources\DataTypes\" />
+    <Folder Include="Resources\Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Data\DiscordInfo.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DiscordInfo.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Data\General.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>General.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Data\TwitchInfo.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TwitchInfo.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Data\DiscordInfo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiscordInfo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Data\General.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>General.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Data\TwitchInfo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TwitchInfo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
