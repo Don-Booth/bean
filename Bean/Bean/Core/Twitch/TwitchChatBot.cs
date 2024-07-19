@@ -189,10 +189,28 @@ namespace Bean.Core.Twitch
                             client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
                         }
                     }
+                    else
+                    {
+                        if (Bean.Program.hrtaskerror)
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"Heartrate connection to server dropped due to error");
+                        }
+                        else
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"Heartrate monitor is not currently running");
+                        }
+                    }
                 }
                 else
                 {
-                    client.SendMessage(e.ChatMessage.Channel, $"Heartrate monitor is not currently running");
+                    if (Bean.Program.hrtaskerror)
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"Heartrate connection to server dropped due to error");
+                    }
+                    else
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"Heartrate monitor is not currently running");
+                    }
                 }
             }
 

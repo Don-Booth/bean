@@ -19,6 +19,7 @@ namespace Bean.Core.Common
         {
             try
             {
+                Bean.Program.hrtaskerror = false;
                 //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11;
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
@@ -74,15 +75,22 @@ namespace Bean.Core.Common
                     }
                     Bean.Program.globalheartrate = 0;
                     Bean.Program.hrtaskrun = false;
+                    Bean.Program.hrtaskerror = false;
                 }
             }
             catch (WebSocketException wex)
             {
                 Console.WriteLine($"HeartRate Error] {wex.Message}");
+                Bean.Program.globalheartrate = 0;
+                Bean.Program.hrtaskrun = false;
+                Bean.Program.hrtaskerror = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"HeartRate Error] TYPE: {ex.GetType().Name} - MESSAGE: {ex.Message}");
+                Bean.Program.globalheartrate = 0;
+                Bean.Program.hrtaskrun = false;
+                Bean.Program.hrtaskerror = true;
             }
         }
 
