@@ -11,6 +11,9 @@ using Discord.WebSocket;
 
 namespace Bean
 {
+    /// <summary>
+    /// This bot was coded with love and fueled by horror movies, Crescent and death metal!!
+    /// </summary>
     class Program
     {
         #region Class Variables
@@ -52,25 +55,13 @@ namespace Bean
         private async Task Client_Ready()
         {
             await DiscordClient.SetStatusAsync(UserStatus.Online); // Sets status to online (should already be so)
-            //await DiscordClient.SetGameAsync("TestBotPleaseIgnore - Tutorial", "", ActivityType.Watching);
 
-            //var service = new NewsFeedService(General.PhilRossiPatreonPodcast);
-            //var newsItems = await service.GetNewsFeed();
-            //string strTitle = "";
-            //foreach (var item in newsItems)
-            //{
-            //    System.Console.WriteLine(item.Title);
-            //    //System.Console.WriteLine(item.Excerpt);
-            //    //System.Console.WriteLine(item.Uri);
-            //    //System.Console.WriteLine("");
-            //    strTitle = item.Title;
-            //    break; // we only want the first one for now.
-            //}
+            string strTitle = await Core.Common.GetMostRecentPodcastEpisode.GetLatestPodcastEpisode();
 
-            //if (strTitle != null)
-            //{
-            //    await DiscordClient.SetGameAsync($"{strTitle} - Phil Rossi Patreon Exclusive Podcast", "", ActivityType.Listening);
-            //}
+            if (strTitle != null)
+            {
+                await DiscordClient.SetGameAsync($"{strTitle} - Phil Rossi Patreon Exclusive Podcast", "", ActivityType.Listening);
+            }
         }
  
         private async Task Client_MessageReceived(SocketMessage MessageParam)

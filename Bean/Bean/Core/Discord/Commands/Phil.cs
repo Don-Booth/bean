@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
-namespace Bean.Core.Commands
+namespace Bean.Core.Discord.Commands
 {
     public class Phil : ModuleBase<SocketCommandContext>
     {
