@@ -45,6 +45,7 @@ namespace Bean
     // TODO Add ASP.NET Site to allow configuration of Bean.
     // TODO Add some more Crescent related things
     // TODO Make Bean automatically poll the Podcast RSS feed on an interval instead of manually or on startup only.
+    // TODO Heartrate could auto report on a timer - maybe directly or through nightbot - 10 minute interval.
     // TODO Get Heartbeat working properly - twitch ONLY
     //      - Heart rate task needs to be able to be started and stopped via command and check if task is already running.
     //      - Heart rate should be stored to the database with the value and a timestamp.  That way we can run metrics on it later.

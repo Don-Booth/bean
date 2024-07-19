@@ -27,6 +27,7 @@ namespace Bean.Core.Twitch
         private LiveStreamMonitorService Monitor;
         readonly ConnectionCredentials twitchcreds = new ConnectionCredentials(TwitchInfo.BotUsername, TwitchInfo.AccessToken);
         TwitchClient client;
+        DateTime lastAutoHeartRateMessageSent = new DateTime();
 
         internal async void Connect()
         {
@@ -153,6 +154,33 @@ namespace Bean.Core.Twitch
                 else
                 {
                     client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                }
+            }
+
+            TimeSpan timeSpan = DateTime.Now - lastAutoHeartRateMessageSent;
+
+            if (lastAutoHeartRateMessageSent == DateTime.MinValue || timeSpan.TotalMinutes >= 7)
+            {
+                string strResult = Twitch.Commands.Heartrate.GetHearRate();
+
+                if (Bean.Program.globalheartrate > 0)
+                {
+                    if (strResult != "")
+                    {
+                        strResult = strResult.Replace("`", "");
+
+                        client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+                        lastAutoHeartRateMessageSent = DateTime.Now;
+                    }
+                    else
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                        lastAutoHeartRateMessageSent = DateTime.Now;
+                    }
+                }
+                else
+                {
+                    lastAutoHeartRateMessageSent = DateTime.Now;
                 }
             }
         }
