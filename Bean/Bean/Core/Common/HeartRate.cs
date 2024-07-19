@@ -10,8 +10,10 @@ namespace Bean.Core.Common
 {
     class HeartRate
     {
-        
-        //System.Threading.CancellationToken cts = new System.Threading.CancellationToken();
+        // TODO Make calls to database for insert every time we get some heartrate data
+        // TODO Make a way to check to ensure we don't Connect() if it's already Connected.
+        // TODO Make a way to determine a heart rate spike and report it to twitch and discord twitch channels.
+        // TODO Get from database also on request from twitch and discord
 
         internal static async Task Connect()
         {
