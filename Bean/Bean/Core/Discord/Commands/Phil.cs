@@ -74,21 +74,6 @@ namespace Bean.Core.Discord.Commands
             await Context.Channel.SendMessageAsync("~Times can vary depending on the week, keep an eye on social media.");
         }
 
-        [Command("philquote"), Alias("quote"), Summary("Quotes from Phil Rossi")]
-        public async Task Quote()
-        {
-            List<string> lstPhilQuotes = new List<string>();
-
-            lstPhilQuotes.Add("'The cat is trying to get in here - at least I hope that's what that sound is.If this never airs, then it wasn't the cat.' - Phil Rossi, Behind the Podcast: Jan 2019");
-            lstPhilQuotes.Add("'On + banana is good.Sometimes I like to halve a banana longways, spread some pb on it and call it a day or at least call it a snack' - Phil Rossi, PhilRossiMedia Discord Server - Jan 20, 2019");
-            lstPhilQuotes.Add("'Old man Rossi is gonna play some video games!' - Phil Rossi, PhilRossiMedia Scream Stream - Jan 30, 2019");
-
-            Random rnd = new Random();
-            int r = rnd.Next(lstPhilQuotes.Count);
-
-            await Context.Channel.SendMessageAsync($"```{lstPhilQuotes[r]}```");
-        }
-
         [Command("aboutphil"), Alias("tell me about phil", "about"), Summary("Phil Rossi Information")]
         public async Task AboutPhil()
         {

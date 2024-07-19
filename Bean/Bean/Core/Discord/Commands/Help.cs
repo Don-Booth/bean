@@ -7,7 +7,7 @@ using Discord.Commands;
 
 namespace Bean.Core.Discord.Commands
 {
-    class Help : ModuleBase<SocketCommandContext>
+    public class Help : ModuleBase<SocketCommandContext>
     {
         [Command("help"), Summary("Help for this bot")]
         public async Task HelpMe()

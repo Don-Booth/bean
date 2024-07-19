@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Bean.Resources.Database;
+using System.Linq;
 
-namespace Bean.Core.Common
+namespace Bean.Core.Discord.Commands
 {
     public class Quotes : ModuleBase<SocketCommandContext>
     {
-        //Quote
-        // create
-        // get
-
         [Group("quote"), Alias("quotes"), Summary("Group to manage quote commands")]
         public class QuotesGroup : ModuleBase<SocketCommandContext>
         {
-            [Command(""), Alias("get", "getrandom", "random"), Summary("Gets a random quote")]
+            [Command(""), Alias("get", "getrandom", "random", "randomquote"), Summary("Gets a random quote")]
             public async Task GetRandomQuote()
             {
+                string strResult = Data.Data.GetQuote();
 
+                if (strResult != "")
+                {
+                    await Context.Channel.SendMessageAsync($"{strResult}");
+                }
+                else
+                {
+                    await Context.Channel.SendMessageAsync($":x: Error retrieving quote");
+                }
             }
 
             [Command("save"), Alias("insert", "store"), Summary("Inserts a quote into the database")]
@@ -44,8 +52,7 @@ namespace Bean.Core.Common
                 }
 
                 // Save data
-
-
+                //await Data.Data.SaveQuote();
                 await Context.Channel.SendMessageAsync($":tada: {User1.Mention} has inserted a quote");
             }
         }

@@ -17,24 +17,28 @@ namespace Bean.Core.Data
 
     public static class Data
     {
-        public static Quote GetQuote()
+        public static string GetQuote()
         {
-            Quote selectedQuote = new Quote();
-
             using (var DbContext = new SQLiteDbContext())
             {
-                int count = DbContext.Quotes.Count();
+                int intQouteCount = DbContext.Quotes.Count();
 
-                if (count > 0)
+                if (intQouteCount > 0)
                 {
                     Random random = new Random();
-                    int selection = random.Next(0, count - 1);
+                    var intRecord = random.Next(1, intQouteCount);
 
-                    selectedQuote = DbContext.Quotes.Where(x => x.QuoteId == selection).First();
+                    string strResult = "";
+                    Quote SelectedQuote = DbContext.Quotes.Where(x => x.QuoteId == intRecord).FirstOrDefault();
+                    strResult = $"```'{SelectedQuote.QuoteText}' - {SelectedQuote.QuoteAuthor}, {SelectedQuote.QuoteSource}, Date: {SelectedQuote.QuoteDate} | Contributed by: {SelectedQuote.QuoteContributor} on {SelectedQuote.DateAdded}```";
+
+                    return strResult;
+                }
+                else
+                {
+                    return "";
                 }
             }
-
-            return selectedQuote;
         }
 
         public static async void SaveQuote(string QuoteText, string QuoteAuthor, string QuoteSource, string QuoteDate, string QuoteContributor)

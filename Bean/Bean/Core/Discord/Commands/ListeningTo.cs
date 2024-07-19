@@ -6,6 +6,7 @@ using Bean.Data;
 
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 
 using System.ServiceModel.Syndication;
 using System.Xml;
