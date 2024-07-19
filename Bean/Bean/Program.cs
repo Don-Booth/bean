@@ -20,6 +20,8 @@ namespace Bean
         internal static int globalheartrate = new int();
         internal static bool hrtaskrun = new bool();
         internal static bool hrtaskerror = false;
+        internal static int topheartrate = 0;
+        internal static bool newtopheartrate = false;
 
         //static void Main(string[] args)
         static void Main()

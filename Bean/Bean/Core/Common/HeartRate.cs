@@ -54,6 +54,12 @@ namespace Bean.Core.Common
                                             int intResult = int.Parse(heartratevalue.ToString());
                                             //Data.Data.SaveHeartRate(intResult, 0, "");
                                             Bean.Program.globalheartrate = intResult;
+
+                                            if (intResult > Bean.Program.topheartrate)
+                                            {
+                                                Bean.Program.topheartrate = intResult;
+                                                Bean.Program.newtopheartrate = true;
+                                            }
                                             break;
                                         }
                                     case "timestamp":

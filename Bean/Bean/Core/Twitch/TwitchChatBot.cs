@@ -37,7 +37,7 @@ namespace Bean.Core.Twitch
             Console.WriteLine("Twitch] Twitch Bot Connecting");
 
             client = new TwitchClient();
-            client.Initialize(twitchcreds, TwitchInfo.TestChannelName);
+            client.Initialize(twitchcreds, TwitchInfo.TestChannelName); // TODO CHANGE BEFORE PRODUCTION
 
             API.Settings.ClientId = TwitchInfo.ClientID;
             API.Settings.AccessToken = TwitchInfo.AccessToken;
@@ -227,6 +227,13 @@ namespace Bean.Core.Twitch
                         strResult = strResult.Replace("`", "");
 
                         client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+
+                        if (Bean.Program.newtopheartrate)
+                        {
+                            client.SendMessage(e.ChatMessage.Channel, $"NEW Top Heartrate: {Bean.Program.topheartrate}");
+                            Bean.Program.newtopheartrate = false;
+                        }
+
                         lastAutoHeartRateMessageSent = DateTime.Now;
                     }
                     else
