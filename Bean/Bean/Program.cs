@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bean.Core.Twitch;
 // Discord
 using Discord;
 using Discord.Commands;
