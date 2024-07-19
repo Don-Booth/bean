@@ -61,7 +61,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to nmd6ifoedifs54up2fe0kvxanlopak.
+        ///   Looks up a localized string similar to 2uq37c9qsq9piphyxpcg9kscpteaes.
         /// </summary>
         internal static string AccessToken {
             get {
@@ -88,7 +88,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to bqxk2h9emm2numqxnbhv4hqc2yhh9z.
+        ///   Looks up a localized string similar to gp762nuuoqcoxypju8c569th9wz7q5.
         /// </summary>
         internal static string ClientID {
             get {
@@ -97,7 +97,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to oim05vfk480pwulfgh6pp4g7zug2jjfhaqqpq5w54etsuc6t87.
+        ///   Looks up a localized string similar to liayreeeu86ffybhg7jfj8xkjsnzvnijbik4g7l7gh6ffmqt71.
         /// </summary>
         internal static string RefreshToken {
             get {
