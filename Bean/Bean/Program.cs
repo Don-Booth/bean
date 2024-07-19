@@ -18,6 +18,8 @@ namespace Bean
     class Program
     {
         internal static int globalheartrate = new int();
+        internal static bool hrtaskrun = new bool();
+
         //static void Main(string[] args)
         static void Main()
         {
@@ -32,10 +34,12 @@ namespace Bean
             TwitchChatBot TBot = new TwitchChatBot();
             TBot.Connect();
 
-            Task t = HeartRate.Connect();
+            //Task t = HeartRate.Connect();
 
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
         }
+
+
     }
 
     #region TODO

@@ -29,7 +29,7 @@ namespace Bean.Core.Common
 
                     await Client.ConnectAsync(serverURI, CancellationToken.None);
 
-                    while (true)
+                    while (Bean.Program.hrtaskrun)
                     {
                         if (Client.State == WebSocketState.Open)
                         {
@@ -72,6 +72,8 @@ namespace Bean.Core.Common
                             break;
                         }
                     }
+                    Bean.Program.globalheartrate = 0;
+                    Bean.Program.hrtaskrun = false;
                 }
             }
             catch (WebSocketException wex)

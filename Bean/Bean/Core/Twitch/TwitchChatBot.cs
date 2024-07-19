@@ -18,6 +18,7 @@ using Bean.Data;
 using System.Threading.Tasks;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 using TwitchLib.Client.Enums;
+using System.Threading;
 
 namespace Bean.Core.Twitch
 {
@@ -28,7 +29,9 @@ namespace Bean.Core.Twitch
         readonly ConnectionCredentials twitchcreds = new ConnectionCredentials(TwitchInfo.BotUsername, TwitchInfo.AccessToken);
         TwitchClient client;
         DateTime lastAutoHeartRateMessageSent = new DateTime();
-
+        private Task task;
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
+        
         internal async void Connect()
         {
             Console.WriteLine("Twitch] Twitch Bot Connecting");
@@ -38,6 +41,11 @@ namespace Bean.Core.Twitch
 
             API.Settings.ClientId = TwitchInfo.ClientID;
             API.Settings.AccessToken = TwitchInfo.AccessToken;
+            TwitchLib.Api.Services.FollowerService followerService = new FollowerService(API);
+            List<string> channelstocheckfollow = new List<string>();
+            channelstocheckfollow.Add("PhilRossiMedia");
+            followerService.SetChannelsByName(channelstocheckfollow);
+            followerService.OnNewFollowersDetected += FollowerService_OnNewFollowersDetected;
 
             client.OnLog += Client_OnLog;
             client.OnConnected += Client_OnConnected;
@@ -46,11 +54,21 @@ namespace Bean.Core.Twitch
             client.OnMessageReceived += Client_OnMessageReceived;
             client.OnMessageThrottled += Client_OnMessageThrottled;
             client.OnNewSubscriber += Client_OnNewSubscriber;
+            client.OnGiftedSubscription += Client_OnGiftedSubscription;
             client.OnDisconnected += Client_OnDisconnected;
 
             client.Connect();
             LiveMonitor();
             //MessageThrottler();
+        }
+
+        private void FollowerService_OnNewFollowersDetected(object sender, TwitchLib.Api.Services.Events.FollowerService.OnNewFollowersDetectedArgs e)
+        {
+            client.SendMessage(e.Channel, $"{e.NewFollowers} just followed!  ONE OF US ONE OF US ONE OF US!");
+        }
+
+        private void Client_OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
+        {
         }
 
         private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
@@ -87,6 +105,8 @@ namespace Bean.Core.Twitch
 
         private async void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
+            CancellationToken token = tokenSource.Token;
+
             if (e.ChatMessage.Message.StartsWith("hi Bean", StringComparison.InvariantCultureIgnoreCase))
             {
                 client.SendMessage(e.ChatMessage.Channel, $"Hi {e.ChatMessage.DisplayName}!");
@@ -115,11 +135,12 @@ namespace Bean.Core.Twitch
                     var stream = await API.V5.Streams.GetStreamByUserAsync(user.Matches[0].Id);
                     if (stream.Stream != null)
                     {
-                        client.SendMessage(e.ChatMessage.Channel, $"Currently playing: {stream.Stream.Game}");
+                        client.SendMessage(e.ChatMessage.Channel, $"Phil is currently playing: {stream.Stream.Game}");
+                        StartTask(ref token, e);
                     }
                     else
                     {
-                        bool isStreaming = await API.V5.Streams.BroadcasterOnlineAsync("user");
+                        bool isStreaming = await API.V5.Streams.BroadcasterOnlineAsync(user.Matches[0].Id);
 
                         if (isStreaming)
                         {
@@ -141,30 +162,41 @@ namespace Bean.Core.Twitch
                 //string msg = $"{channel} has been streaming for {(DateTime.Now - stream.Stream.CreatedAt).ToString()} and they've been playing {stream.Stream.Game}.";
 
             }
+            else if (e.ChatMessage.Message.Equals("b!stophr", StringComparison.InvariantCulture))
+            {
+                StopTask();
+            }
             else if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
             {
-                string strResult = Twitch.Commands.Heartrate.GetHearRate();
-
-                if (strResult != "")
+                if (Program.hrtaskrun)
                 {
-                    strResult = strResult.Replace("`", "");
+                    string strResult = Twitch.Commands.Heartrate.GetHearRate();
 
-                    client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+                    if (strResult != "")
+                    {
+                        strResult = strResult.Replace("`", "");
+
+                        client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+                    }
+                    else
+                    {
+                        client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                    }
                 }
                 else
                 {
-                    client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                    client.SendMessage(e.ChatMessage.Channel, $"Heartrate monitor is not currently running");
                 }
             }
 
             TimeSpan timeSpan = DateTime.Now - lastAutoHeartRateMessageSent;
 
-            if (lastAutoHeartRateMessageSent == DateTime.MinValue || timeSpan.TotalMinutes >= 7)
+            if (lastAutoHeartRateMessageSent == DateTime.MinValue || timeSpan.TotalMinutes >= 5)
             {
-                string strResult = Twitch.Commands.Heartrate.GetHearRate();
-
                 if (Bean.Program.globalheartrate > 0)
                 {
+                    string strResult = Twitch.Commands.Heartrate.GetHearRate();
+
                     if (strResult != "")
                     {
                         strResult = strResult.Replace("`", "");
@@ -207,8 +239,6 @@ namespace Bean.Core.Twitch
 
         private async Task ConfigLiveMonitorAsync()
         {
-
-
             Monitor = new LiveStreamMonitorService(API, 60);
 
             List<string> lst = new List<string> { "ID1", "ID2" };
@@ -247,6 +277,23 @@ namespace Bean.Core.Twitch
         private void Monitor_OnServiceStarted(object sender, OnServiceStartedArgs e)
         {
             Console.WriteLine($"Twitch] Monitor Service has started");
+        }
+
+        private void StartTask(ref CancellationToken token, OnMessageReceivedArgs e)
+        {
+            task = Task.Factory.StartNew(() =>
+            {
+                Bean.Program.hrtaskrun = true;
+                _ = Bean.Core.Common.HeartRate.Connect();
+            }, token);
+
+            client.SendMessage(e.ChatMessage.Channel, $"Heartrate Task has been started");
+            Console.WriteLine($"Twitch] Heartrate Task has been started");
+        }
+
+        private void StopTask()
+        {
+            Bean.Program.hrtaskrun = false;
         }
     }
 }
