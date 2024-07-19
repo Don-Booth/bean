@@ -43,6 +43,11 @@ namespace Bean
             await DiscordClient.StartAsync(); // Start the bot.
             #endregion
 
+            #region Twitch Configuration
+            TwitchChatBot TBot = new TwitchChatBot();
+            TBot.Connect();
+            #endregion
+
             await Task.Delay(-1); // Delay infinitely otherwise the program would close immediately, defeating the purpose of having a bot.
         }
 

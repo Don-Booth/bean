@@ -7,7 +7,13 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="4.5.0" />
     <PackageReference Include="TwitchLib" Version="3.0.1" />
@@ -16,8 +22,6 @@
   <ItemGroup>
     <Folder Include="Core\Data\" />
     <Folder Include="Core\Twitch\Commands\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Resources\Database\" />
     <Folder Include="Resources\DataTypes\" />
     <Folder Include="Resources\Extensions\" />
   </ItemGroup>
