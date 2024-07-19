@@ -17,6 +17,7 @@ namespace Bean
     /// </summary>
     class Program
     {
+        internal static int globalheartrate = new int();
         //static void Main(string[] args)
         static void Main()
         {

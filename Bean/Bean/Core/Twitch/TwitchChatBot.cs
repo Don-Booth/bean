@@ -77,6 +77,22 @@ namespace Bean.Core.Twitch
                 }
             }
 
+            if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
+            {
+                string strResult = Twitch.Commands.Heartrate.GetHearRate();
+
+                if (strResult != "")
+                {
+                    strResult = strResult.Replace("`", "");
+
+                    client.SendMessage(e.ChatMessage.Channel, $"{strResult}");
+                }
+                else
+                {
+                    client.SendMessage(e.ChatMessage.Channel, $"Error retrieving heartrate");
+                }
+            }
+
             //if (e.ChatMessage.Message.StartsWith("!heartrate", StringComparison.InvariantCultureIgnoreCase))
             //{
             //HeartBeat hb = new HeartBeat();

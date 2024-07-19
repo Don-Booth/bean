@@ -9,23 +9,13 @@ namespace Bean.Core.Twitch.Commands
 {
     class Heartrate
     {
-        //[Command("kickstartmyheart"), Alias("kickheart"), Summary("Start the Heart Rate Websocket Service")]
-        //public async Task KickstartMyHeart()
-        //{
-            //s suggested by Jon Skeet, the Task.IsCompleted is the better option.
-            //if (task != null && (task.Status == TaskStatus.Running || task.Status == TaskStatus.WaitingToRun || task.Status == TaskStatus.WaitingForActivation))
-            //{
-            //    Logger.Log("Task has attempted to start while already running");
-            //}
-            //else
-            //{
-            //    Logger.Log("Task has began");
+        internal static string GetHearRate()
+        {
+            string strHeartRate = "";
 
-            //    task = Task.Factory.StartNew(() =>
-            //    {
-            //        // Stuff                
-            //    });
-        //    //}
-        //}
+            strHeartRate = $"Current heartrate is: {Bean.Program.globalheartrate}";
+
+            return strHeartRate;
+        }
     }
 }

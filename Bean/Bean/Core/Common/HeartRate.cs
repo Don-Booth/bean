@@ -51,6 +51,8 @@ namespace Bean.Core.Common
                                             var heartratevalue = (String)app.Value["heartRate"];
                                             //Console.WriteLine(heartratevalue);
                                             int intResult = int.Parse(heartratevalue.ToString());
+                                            //Data.Data.SaveHeartRate(intResult, 0, "");
+                                            Bean.Program.globalheartrate = intResult;
                                             break;
                                         }
                                     case "timestamp":
