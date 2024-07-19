@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
-using Bean.Resources.Database;
-using System.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace Bean.Core.Discord.Commands
 {
@@ -60,7 +54,7 @@ namespace Bean.Core.Discord.Commands
                 }
             }
 
-            [Command("save"), Alias("insert", "store"), Summary("Inserts a quote into the database")]
+            [Command("add"), Alias("insert", "store", "save"), Summary("Inserts a quote into the database")]
             public async Task InsertQuote(string QuoteText, string QuoteAuthor, string QuoteSource, string QuoteDate)
             {
                 //quote save quotetext quoteauthor quotesource quotedate
