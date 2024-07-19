@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Bean.Data;
 
 namespace Bean.Resources.Database
 {
@@ -12,9 +13,9 @@ namespace Bean.Resources.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder Options)
         {
-            string DbLocation = Assembly.GetEntryAssembly().Location.Replace(@"bin\Debug\netcoreapp2.2", @"Data\");
-            //Options.UseSqlite($"Data Source=Database.sqlite");
-            Options.UseSqlite($"Data Source={DbLocation}Database.sqlite");
+            //string DbLocation = Assembly.GetEntryAssembly().Location.Replace(@"bin\Debug\netcoreapp2.2", @"Data\");
+            Options.UseSqlite($"Data Source={Data.General.ConnectionString}");
+            //Options.UseSqlite($"Data Source={DbLocation}Database.sqlite");
         }
     }
 }

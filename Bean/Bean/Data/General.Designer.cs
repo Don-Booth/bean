@@ -61,6 +61,15 @@ namespace Bean.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database.sqlite.
+        /// </summary>
+        internal static string ConnectionString {
+            get {
+                return ResourceManager.GetString("ConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.patreon.com/rss/philrossi?auth=PmTieanj2X1e4jGcefdONe6705vuUPin.
         /// </summary>
         internal static string PhilRossiPatreonPodcast {
