@@ -37,7 +37,7 @@ namespace Bean.Core.Twitch
             Console.WriteLine("Twitch] Twitch Bot Connecting");
 
             client = new TwitchClient();
-            client.Initialize(twitchcreds, TwitchInfo.TestChannelName); // TODO CHANGE BEFORE PRODUCTION
+            client.Initialize(twitchcreds, TwitchInfo.ChannelName); // TODO CHANGE BEFORE PRODUCTION
 
             API.Settings.ClientId = TwitchInfo.ClientID;
             API.Settings.AccessToken = TwitchInfo.AccessToken;
@@ -170,6 +170,17 @@ namespace Bean.Core.Twitch
                     StopTask();
                 }
             }
+            else if (e.ChatMessage.Message.Equals("b!gettophr", StringComparison.InvariantCulture))
+            {
+                if (Program.topheartrate > 0)
+                {
+                    client.SendMessage(e.ChatMessage.Channel, $"Current top heartrate of the day: {Program.topheartrate.ToString()}");
+                }
+                else
+                {
+                    client.SendMessage(e.ChatMessage.Channel, $"Current top heartrate of the day: NONE");
+                }
+            }
             else if (e.ChatMessage.Message.Equals("b!gethr", StringComparison.InvariantCulture))
             {
                 if (Program.hrtaskrun)
@@ -230,7 +241,7 @@ namespace Bean.Core.Twitch
 
                         if (Bean.Program.newtopheartrate)
                         {
-                            client.SendMessage(e.ChatMessage.Channel, $"NEW Top Heartrate: {Bean.Program.topheartrate}");
+                            client.SendMessage(e.ChatMessage.Channel, $"NEW Top Heartrate of the day: {Bean.Program.topheartrate.ToString()}");
                             Bean.Program.newtopheartrate = false;
                         }
 
