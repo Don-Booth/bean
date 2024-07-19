@@ -38,6 +38,28 @@ namespace Bean.Core.Discord.Commands
                 }
             }
 
+            [Command("count"), Alias("getcount", "getquotecount"), Summary("Gets the number of quotes")]
+            public async Task GetQuoteCount()
+            {
+                try
+                {
+                    string strResult = Data.Data.GetQouteCount();
+
+                    if (strResult != "")
+                    {
+                        await Context.Channel.SendMessageAsync($"{strResult}");
+                    }
+                    else
+                    {
+                        await Context.Channel.SendMessageAsync($":x: Error retrieving quote");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Database Error: {ex.Message}");
+                }
+            }
+
             [Command("save"), Alias("insert", "store"), Summary("Inserts a quote into the database")]
             public async Task InsertQuote(string QuoteText, string QuoteAuthor, string QuoteSource, string QuoteDate)
             {

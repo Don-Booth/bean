@@ -10,6 +10,9 @@ using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
+using TwitchLib.Api;
+using TwitchLib.Api.Services;
+using TwitchLib.Api.Services.Events;
 
 using Bean.Data;
 
@@ -48,6 +51,11 @@ namespace Bean.Core.Twitch
 
         private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
+            TwitchAPI api = new TwitchAPI();
+            var temp = api.V5.Streams.GetStreamByUserAsync("PhilRossiMedia");
+            //TwitchLib.Communication.Services.Throttlers
+
+
             if (e.ChatMessage.Message.StartsWith("hi Bean", StringComparison.InvariantCultureIgnoreCase))
             {
                 client.SendMessage(e.ChatMessage.Channel, $"Hi {e.ChatMessage.DisplayName}!");

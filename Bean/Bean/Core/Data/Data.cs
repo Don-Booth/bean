@@ -20,7 +20,7 @@ namespace Bean.Core.Data
                 if (intQouteCount > 0)
                 {
                     Random random = new Random();
-                    var intRecord = random.Next(1, intQouteCount);
+                    var intRecord = random.Next(1, intQouteCount + 1);
 
                     string strResult = "";
                     Quote SelectedQuote = DbContext.Quotes.Where(x => x.QuoteId == intRecord).FirstOrDefault();
@@ -32,6 +32,18 @@ namespace Bean.Core.Data
                 {
                     return "";
                 }
+            }
+        }
+
+        public static string GetQouteCount()
+        {
+            using (var DbContext = new SQLiteDbContext())
+            {
+                int intQuoteCount = DbContext.Quotes.Count();
+
+                string strResult = $"{intQuoteCount.ToString()} quotes are currently in the database";
+
+                return strResult;
             }
         }
 

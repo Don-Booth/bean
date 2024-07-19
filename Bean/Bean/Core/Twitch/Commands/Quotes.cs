@@ -21,5 +21,21 @@ namespace Bean.Core.Twitch.Commands
 
             return strRandomQuote;
         }
+
+        internal static string GetQuoteCount()
+        {
+            string strQuoteCount = "";
+
+            try
+            {
+                strQuoteCount = Data.Data.GetQouteCount();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Twitch] Database Error: {ex.Message}");
+            }
+
+            return strQuoteCount;
+        }
     }
 }
