@@ -19,7 +19,7 @@ namespace Bean.Data {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class DiscordInfo {
@@ -61,7 +61,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NTM2MjIwMjc1NDE1NzExNzU0.DzeRTQ.E2jKwKZ5VFxKivvrYraxXQOCxh8.
+        ///   Looks up a localized string similar to InsertTestTokenHere.
         /// </summary>
         internal static string TestToken {
             get {
@@ -70,7 +70,7 @@ namespace Bean.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NTM2MjQ3NDAzNTkwOTc1NDg4.DyT7pA.eMJmtCPeLV8kxoih1QMDOtwnQNM.
+        ///   Looks up a localized string similar to InsertTokenHere.
         /// </summary>
         internal static string Token {
             get {

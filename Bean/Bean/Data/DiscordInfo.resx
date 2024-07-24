@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TestToken" xml:space="preserve">
-    <value>NTM2MjIwMjc1NDE1NzExNzU0.DzeRTQ.E2jKwKZ5VFxKivvrYraxXQOCxh8</value>
+    <value>InsertTestTokenHere</value>
     <comment>Discord Bot Test Token</comment>
   </data>
   <data name="Token" xml:space="preserve">
-    <value>NTM2MjQ3NDAzNTkwOTc1NDg4.DyT7pA.eMJmtCPeLV8kxoih1QMDOtwnQNM</value>
+    <value>InsertTokenHere</value>
     <comment>PhilRossiMedia Token</comment>
   </data>
 </root>
